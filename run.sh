@@ -37,7 +37,7 @@ echo "Make $1 (lib $LIB)..."
 ghdl -m --work=$LIB --workdir=../$LIB/work ${workdirs[@]} $1
 
 echo "Run $1..."
-ghdl -r $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=note
+ghdl -r $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=warning
 
 echo "Wave $1..."
 gtkwave $1.ghw --rcvar 'do_initial_zoom_fit yes'
