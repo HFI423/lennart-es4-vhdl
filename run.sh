@@ -7,19 +7,23 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
+LIB=$(echo $1 | cut -d. -f1)
 workdirs=(*/);
+
+mkdir -p work
+cd work
+
 for i in "${!workdirs[@]}"; do
     SUBLIB=$(echo "${workdirs[$i]}" | cut -d/ -f1)
     if [[ $SUBLIB != "work" ]]; then
-        ./import.sh $SUBLIB
+        echo "Import $SUBLIB..."
+        mkdir -p ../$SUBLIB/work
+        ghdl -i --work=$SUBLIB --workdir=../$SUBLIB/work ../$SUBLIB/**.vhd
         workdirs[$i]="-P../${workdirs[$i]}work"
     else
         unset 'workdirs[i]'
     fi
 done
-
-LIB=$(echo $1 | cut -d. -f1)
-cd work
 
 echo "Make $1 (lib $LIB)..."
 ghdl -m --work=$LIB --workdir=../$LIB/work ${workdirs[@]} $1
