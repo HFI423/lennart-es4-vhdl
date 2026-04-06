@@ -1,0 +1,4 @@
+[libraries]
+
+# Defines library counter
+counter.files = ['counter/*.vhd']
