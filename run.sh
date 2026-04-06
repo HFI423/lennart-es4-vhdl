@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: ./run.sh ENTITY"
+if [ "$#" -eq 0 ]; then
+    echo "Usage: ./run.sh ENTITY [STOP_TIME, default 1000ns]"
     echo "Example (in project root): ./run.sh counter.counter_tb"
-    echo "Example (in library counter): ./run.sh counter_tb"
+    echo "Example (in library counter): ./run.sh counter_tb 1000ns"
     exit 1
 fi
 
@@ -23,7 +23,7 @@ cd work
 
 for i in "${!workdirs[@]}"; do
     SUBLIB=$(echo "${workdirs[$i]}" | cut -d/ -f1)
-    if [[ $SUBLIB != "work" ]]; then
+    if [[ $(ls ../$SUBLIB) == *".vhd"* ]]; then
         echo "Import $SUBLIB..."
         mkdir -p ../$SUBLIB/work
         ghdl -i --work=$SUBLIB --workdir=../$SUBLIB/work ../$SUBLIB/**.vhd
@@ -37,7 +37,7 @@ echo "Make $1 (lib $LIB)..."
 ghdl -m --work=$LIB --workdir=../$LIB/work ${workdirs[@]} $1
 
 echo "Run $1..."
-ghdl -r $1 --stop-time=3100ns --wave=$1.ghw
+ghdl -r $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=note
 
 echo "Wave $1..."
 gtkwave $1.ghw --rcvar 'do_initial_zoom_fit yes'
