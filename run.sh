@@ -3,13 +3,21 @@ set -e
 
 if [ "$#" -ne 1 ]; then
     echo "Usage: ./run.sh ENTITY"
-    echo "Example: ./run.sh counter.counter_tb"
+    echo "Example (in project root): ./run.sh counter.counter_tb"
+    echo "Example (in library counter): ./run.sh counter_tb"
     exit 1
 fi
 
+ENTITY=$1
 LIB=$(echo $1 | cut -d. -f1)
-workdirs=(*/);
 
+if [[ $ENTITY != *"."* ]]; then
+    LIB=$(pwd | rev | cut -d/ -f1 | rev)
+    ENTITY="$LIB.$ENTITY"
+    cd ..
+fi
+
+workdirs=(*/);
 mkdir -p work
 cd work
 
