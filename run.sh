@@ -23,10 +23,10 @@ cd work
 
 for i in "${!workdirs[@]}"; do
     SUBLIB=$(echo "${workdirs[$i]}" | cut -d/ -f1)
-    if [[ $(ls ../$SUBLIB) == *".vhd"* ]]; then
+    if [[ $(ls -R ../$SUBLIB) == *".vhd"* ]]; then
         echo "Import $SUBLIB..."
         mkdir -p ../$SUBLIB/work
-        ghdl -i --work=$SUBLIB --workdir=../$SUBLIB/work ../$SUBLIB/**.vhd
+        ghdl -i --work=$SUBLIB --workdir=../$SUBLIB/work $(find ../$SUBLIB -name "*.vhd")
         workdirs[$i]="-P../${workdirs[$i]}work"
     else
         unset 'workdirs[i]'
