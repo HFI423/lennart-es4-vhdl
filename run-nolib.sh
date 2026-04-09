@@ -11,13 +11,13 @@ mkdir -p work
 cd work
 
 echo "Import src and test..."
-ghdl -i --std=08 $(find ../src -name "*.vhd") $(find ../test -name "*.vhd")
+ghdl -i --std=93 $(find ../src -name "*.vhd") $(find ../test -name "*.vhd")
 
 echo "Make $1..."
-ghdl -m --std=08 --workdir=. $1
+ghdl -m --std=93 --workdir=. $1
 
 echo "Run $1..."
-ghdl -r --std=08 $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=warning
+ghdl -r --std=93 $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=warning
 
 echo "Wave $1..."
 gtkwave $1.ghw --rcvar 'do_initial_zoom_fit yes'

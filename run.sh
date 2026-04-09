@@ -26,7 +26,7 @@ for i in "${!workdirs[@]}"; do
     if [[ $(ls -R ../$SUBLIB) == *".vhd"* ]]; then
         echo "Import $SUBLIB..."
         mkdir -p ../$SUBLIB/work
-        ghdl -i --std=08 --work=$SUBLIB --workdir=../$SUBLIB/work $(find ../$SUBLIB -name "*.vhd")
+        ghdl -i --std=93 --work=$SUBLIB --workdir=../$SUBLIB/work $(find ../$SUBLIB -name "*.vhd")
         workdirs[$i]="-P../${workdirs[$i]}work"
     else
         unset 'workdirs[i]'
@@ -34,10 +34,10 @@ for i in "${!workdirs[@]}"; do
 done
 
 echo "Make $1 (lib $LIB)..."
-ghdl -m --std=08 --work=$LIB --workdir=../$LIB/work ${workdirs[@]} $1
+ghdl -m --std=93 --work=$LIB --workdir=../$LIB/work ${workdirs[@]} $1
 
 echo "Run $1..."
-ghdl -r --std=08 $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=warning
+ghdl -r --std=93 $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=warning
 
 echo "Wave $1..."
 gtkwave $1.ghw --rcvar 'do_initial_zoom_fit yes'
