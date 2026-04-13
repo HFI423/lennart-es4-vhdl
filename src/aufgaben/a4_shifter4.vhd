@@ -42,7 +42,6 @@ begin
         x(2 downto 0) & x(3) when "01",
         x when others;
 
-
 end architecture;
 
 architecture d of a4_shifter4 is
