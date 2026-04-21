@@ -9,7 +9,7 @@ ARCHITECTURE behavior OF counter_tb IS
     
    --Inputs
    signal clk : std_logic := '0';
-   signal reset : std_logic := '0';
+   signal rst : std_logic := '0';
    signal en : std_logic := '0';
    signal up : std_logic := '0';
 
@@ -25,7 +25,7 @@ BEGIN
    uut: entity work.counter
 		port map (
           clk => clk,
-          reset => reset,
+          rst => rst,
           en => en,
           up => up,
           count => count
@@ -44,12 +44,12 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
-		reset <= '1';
+		rst <= '1';
 		en <= '0';
 		up <= '1';
       wait for clk_period;
 		
-		reset <= '0';
+		rst <= '0';
 		wait for clk_period*5;
 		
 		en <= '1';
@@ -64,10 +64,10 @@ BEGIN
 		en <= '0';
 		wait for clk_period*5;
 		
-		reset <= '1';
+		rst <= '1';
 		wait for clk_period;
 		
-		reset <= '0';
+		rst <= '0';
 		wait for clk_period*10;
 		
 		en <= '1';

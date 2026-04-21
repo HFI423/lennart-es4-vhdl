@@ -1,32 +1,40 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity counter is
-    Port ( clk : in  STD_LOGIC;
-           reset : in  STD_LOGIC;
-           en : in  STD_LOGIC;
-           up : in  STD_LOGIC;
-           count : out  STD_LOGIC_VECTOR (7 downto 0));
+	generic (
+		size : natural := 4
+	);
+    port (
+		clk : in std_logic;
+        rst : in std_logic;
+    	en : in  std_logic;
+        up : in  std_logic;
+        count : out  std_logic_vector(size-1 downto 0)
+	);
 end counter;
 
-architecture Behavioral of counter is
-	signal q : std_logic_vector (7 downto 0);
-	signal qn : std_logic_vector (7 downto 0);
+architecture rtl of counter is
+	signal q : unsigned(size-1 downto 0);
+	signal qn : unsigned(size-1 downto 0);
 begin
 
 	process (clk)
 	begin
 		if rising_edge(clk) then
-			q <= qn;
+			if rst = '1' then
+				q <= (others => '0');
+			else
+				q <= qn;
+			end if;
 		end if;
 	end process;
 	
-	qn <= (others => '0') when reset='1'
-		else q when en='0'
-		else std_logic_vector(unsigned(q) + 1) when up='1'
-		else std_logic_vector(unsigned(q) - 1);
-	count <= q;
+	qn <= q when en='0'
+		else q+1 when up='1'
+		else q-1;
+	count <= std_logic_vector(q);
 
-end Behavioral;
+end architecture;
 
