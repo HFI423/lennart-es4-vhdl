@@ -3,6 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity sw_ctrl is
+
     port (
         clk : in std_logic;
         rst : in std_logic;
@@ -11,7 +12,9 @@ entity sw_ctrl is
         sw_run : out std_logic;
         sw_rst : out std_logic
     );
+
     type state is (zero, start, running, stop, stopped, reset);
+
 end entity;
 
 architecture rtl of sw_ctrl is

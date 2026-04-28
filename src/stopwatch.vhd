@@ -3,13 +3,19 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity stopwatch is
+    
+    generic (
+        time_size : natural := 32
+    );
+
     port (
         clk : in std_logic;
         rst : in std_logic;
         b1_switch : in std_logic;
         b2_rst : in std_logic;
-        elapsed : out std_logic_vector(7 downto 0)
+        elapsed : out std_logic_vector(time_size-1 downto 0)
     );
+
 end entity;
 
 architecture rtl of stopwatch is
@@ -28,7 +34,7 @@ begin
             sw_rst => sw_rst
         );
 
-    counter_inst: entity work.counter
+    counter: entity work.counter
         generic map (
             size => elapsed'length
         )
