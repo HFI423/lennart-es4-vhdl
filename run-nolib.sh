@@ -17,7 +17,7 @@ echo "Make $1..."
 ghdl -m --std=93 --workdir=. $1
 
 echo "Run $1..."
-ghdl -r --std=93 $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=warning
+ghdl -r --std=93 $1 --stop-time=${2:-1000ns} --wave=$1.ghw --assert-level=${3:-error}
 
 echo "Wave $1..."
 gtkwave $1.ghw --rcvar 'do_initial_zoom_fit yes'

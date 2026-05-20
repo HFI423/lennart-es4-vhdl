@@ -17,4 +17,4 @@ echo "Make $1..."
 ghdl -m --std=93 --workdir=. $1
 
 echo "Run $1..."
-ghdl -r --std=93 $1 --stop-time=${2:-1000ns} --assert-level=error
+ghdl -r --std=93 $1 --stop-time=${2:-1000ns} --assert-level=${3:-error}
